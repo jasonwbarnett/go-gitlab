@@ -1366,3 +1366,76 @@ func (s *ProjectsService) StartMirroringProject(pid interface{}, options ...Opti
 
 	return resp, err
 }
+
+// ProjectApprovalsConfiguration represents Gitlab project  request approvals.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#project-level-mr-approvals
+type ProjectApprovalsConfiguration struct {
+	ApprovalsBeforeMerge                      int  `json:"approvals_before_merge"`
+	ResetApprovalsOnPush                      bool `json:"reset_approvals_on_push"`
+	DisableOverridingApproversPerMergeRequest bool `json:"disable_overriding_approvers_per_merge_request"`
+	MergeRequestsAuthorApproval               bool `json:"merge_requests_author_approval"`
+	MergeRequestsDisableCommittersApproval    bool `json:"merge_requests_disable_committers_approval"`
+}
+
+// GetApprovals returns information about a project’s approval configuration
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-configuration
+func (s *ProjectsService) GetApprovals(pid interface{}, options ...OptionFunc) (*ProjectApprovalsConfiguration, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("/projects/%s/approvals", pathEscape(project))
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	ac := new(ProjectApprovalsConfiguration)
+	resp, err := s.client.Do(req, ac)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return ac, resp, err
+}
+
+// UpdateApprovalsConfigurationOptions represents the available UpdateIssue() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/issues.html#edit-issue
+type UpdateProjectApprovalsOptions struct {
+	ApprovalsBeforeMerge                      *int  `url:"approvals_before_merge,omitempty" json:"approvals_before_merge,omitempty"`
+	ResetApprovalsOnPush                      *bool `url:"reset_approvals_on_push,omitempty" json:"reset_approvals_on_push,omitempty"`
+	DisableOverridingApproversPerMergeRequest *bool `url:"disable_overriding_approvers_per_merge_request,omitempty" json:"disable_overriding_approvers_per_merge_request,omitempty"`
+	MergeRequestsAuthorApproval               *bool `url:"merge_requests_author_approval,omitempty" json:"merge_requests_author_approval,omitempty"`
+	MergeRequestsDisableCommittersApproval    *bool `url:"merge_requests_disable_committers_approval,omitempty" json:"merge_requests_disable_committers_approval,omitempty"`
+}
+
+// UpdateApprovalsConfiguration returns information about a project’s approval configuration
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-configuration
+func (s *ProjectsService) UpdateApprovals(pid interface{}, issue int, opt *UpdateProjectApprovalsOptions, options ...OptionFunc) (*ProjectApprovalsConfiguration, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("/projects/%s/approvals", pathEscape(project))
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	pac := new(ProjectApprovalsConfiguration)
+	resp, err := s.client.Do(req, pac)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return pac, resp, err
+}
