@@ -1404,7 +1404,7 @@ func (s *ProjectsService) GetApprovals(pid interface{}, options ...OptionFunc) (
 	return ac, resp, err
 }
 
-// UpdateApprovalsConfigurationOptions represents the available UpdateIssue() options.
+// UpdateProjectApprovalsOptions represents the available UpdateIssue() options.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/issues.html#edit-issue
 type UpdateProjectApprovalsOptions struct {
@@ -1415,7 +1415,7 @@ type UpdateProjectApprovalsOptions struct {
 	MergeRequestsDisableCommittersApproval    *bool `url:"merge_requests_disable_committers_approval,omitempty" json:"merge_requests_disable_committers_approval,omitempty"`
 }
 
-// UpdateApprovalsConfiguration returns information about a project’s approval configuration
+// UpdateApprovals returns information about a project’s approval configuration
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-configuration
