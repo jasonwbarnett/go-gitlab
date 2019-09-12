@@ -49,6 +49,26 @@ type Group struct {
 	CustomAttributes     []*CustomAttribute `json:"custom_attributes"`
 }
 
+// BasicGroupDetailsEntity is a representation identical to Gitlab Grape Entity
+type BasicGroupDetailsEntity struct {
+	ID     int    `json:"id"`
+	WebURL string `json:"web_url"`
+	Name   string `json:"name"`
+}
+
+// GroupEntity is a representation identical to Gitlab Grape Entity
+type GroupEntity struct {
+	BasicGroupDetailsEntity
+	Path                 string             `json:"path"`
+	LFSEnabled           bool               `json:"lfs_enabled"`
+	AvatarURL            string             `json:"avatar_url"`
+	RequestAccessEnabled bool               `json:"request_access_enabled"`
+	FullName             string             `json:"full_name"`
+	ParentID             int                `json:"parent_id"`
+	CustomAttributes     []*CustomAttribute `json:"custom_attributes"`
+	Statistics           *StorageStatistics `json:"statistics"`
+}
+
 // ListGroupsOptions represents the available ListGroups() options.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/groups.html#list-project-groups

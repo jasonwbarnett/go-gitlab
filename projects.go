@@ -129,6 +129,7 @@ type ProjectNamespace struct {
 type StorageStatistics struct {
 	StorageSize      int64 `json:"storage_size"`
 	RepositorySize   int64 `json:"repository_size"`
+	WikiSize         int64 `json:"wiki_size"`
 	LfsObjectsSize   int64 `json:"lfs_objects_size"`
 	JobArtifactsSize int64 `json:"job_artifacts_size"`
 }
@@ -1438,4 +1439,44 @@ func (s *ProjectsService) UpdateApprovals(pid interface{}, issue int, opt *Updat
 	}
 
 	return pac, resp, err
+}
+
+// ProjectApprovalRule represents a project approval rule.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-project-level-rules
+type ProjectApprovalRule struct {
+	ID                   int                `json:"id"`
+	Name                 string             `json:"name"`
+	RuleType             string             `json:"rule_type"`
+	EligibleApprovers    []*UserBasicEntity `json:"eligible_approvers"`
+	ApprovalsRequired    int                `json:"approvals_required"`
+	Users                []*UserBasicEntity `json:"users"`
+	Groups               []*GroupEntity     `json:"groups"`
+	ContainsHiddenGroups bool               `json:"contains_hidden_groups"`
+}
+
+// ApprovalRules returns information about a project’s approval configuration
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-configuration
+func (s *ProjectsService) ApprovalRules(pid interface{}, issue int, opt *UpdateProjectApprovalsOptions, options ...OptionFunc) ([]*ProjectApprovalRule, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("/projects/%s/approvals", pathEscape(project))
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var par []*ProjectApprovalRule
+	resp, err := s.client.Do(req, &par)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return par, resp, err
 }

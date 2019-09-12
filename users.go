@@ -76,6 +76,30 @@ type User struct {
 	CustomAttributes          []*CustomAttribute `json:"custom_attributes"`
 }
 
+// UserSafeEntity is
+type UserSafeEntity struct {
+	ID       int    `json:"id"`
+	Username string `json:"username"`
+	Name     string `json:"name"`
+}
+
+// UserBasicEntity is
+type UserBasicEntity struct {
+	UserSafeEntity
+	State            string             `json:"state"`
+	AvatarURL        string             `json:"avatar_url"`
+	AvatarPath       string             `json:"avatar_path"`
+	CustomAttributes []*CustomAttribute `json:"custom_attributes"`
+	WebURL           string             `json:"web_url"`
+}
+
+// UserEntity is
+type UserEntity struct {
+	UserSafeEntity
+	CreatedAt *time.Time `json:"created_at"`
+	Bio       string     `json:"bio"`
+}
+
 // UserIdentity represents a user identity.
 type UserIdentity struct {
 	Provider  string `json:"provider"`
