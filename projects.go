@@ -1247,31 +1247,6 @@ type ProjectApprovals struct {
 	MergeRequestsAuthorApproval               bool                         `json:"merge_requests_author_approval"`
 }
 
-// GetApprovalConfiguration get the approval configuration for a project.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-configuration
-func (s *ProjectsService) GetApprovalConfiguration(pid interface{}, options ...OptionFunc) (*ProjectApprovals, *Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, nil, err
-	}
-	u := fmt.Sprintf("projects/%s/approvals", pathEscape(project))
-
-	req, err := s.client.NewRequest("GET", u, nil, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	pa := new(ProjectApprovals)
-	resp, err := s.client.Do(req, pa)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return pa, resp, err
-}
-
 // ChangeApprovalConfigurationOptions represents the available
 // ApprovalConfiguration() options.
 //
@@ -1372,7 +1347,7 @@ func (s *ProjectsService) StartMirroringProject(pid interface{}, options ...Opti
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#project-level-mr-approvals
-type ProjectApprovalsConfiguration struct {
+type ProjectApprovalConfiguration struct {
 	ApprovalsBeforeMerge                      int  `json:"approvals_before_merge"`
 	ResetApprovalsOnPush                      bool `json:"reset_approvals_on_push"`
 	DisableOverridingApproversPerMergeRequest bool `json:"disable_overriding_approvers_per_merge_request"`
@@ -1384,7 +1359,7 @@ type ProjectApprovalsConfiguration struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-configuration
-func (s *ProjectsService) GetApprovalsConfiguration(pid interface{}, options ...OptionFunc) (*ProjectApprovalsConfiguration, *Response, error) {
+func (s *ProjectsService) GetApprovalConfiguration(pid interface{}, options ...OptionFunc) (*ProjectApprovalConfiguration, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -1396,7 +1371,7 @@ func (s *ProjectsService) GetApprovalsConfiguration(pid interface{}, options ...
 		return nil, nil, err
 	}
 
-	ac := new(ProjectApprovalsConfiguration)
+	ac := new(ProjectApprovalConfiguration)
 	resp, err := s.client.Do(req, ac)
 	if err != nil {
 		return nil, resp, err
