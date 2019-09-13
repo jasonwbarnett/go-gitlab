@@ -1480,3 +1480,37 @@ func (s *ProjectsService) ApprovalRules(pid interface{}, issue int, opt *UpdateP
 
 	return par, resp, err
 }
+
+// CreateProjectApprovalRuleOptions does...
+//
+// GitLab API docs: FILL IN
+type CreateProjectApprovalRuleOptions struct {
+	Name              *string `url:"name,omitempty" json:"name,omitempty"`
+	ApprovalsRequired *bool   `url:"reset_approvals_on_push,omitempty" json:"reset_approvals_on_push,omitempty"`
+	UserIDs           []*int  `url:"user_ids,omitempty" json:"user_ids,omitempty"`
+	GroupIDs          []*int  `url:"group_ids,omitempty" json:"group_ids,omitempty"`
+}
+
+// CreateApprovalRule does...
+//
+// GitLab API docs: FILL IN
+func (s *ProjectsService) CreateApprovalRule(pid interface{}, opt *CreateProjectApprovalRuleOptions, options ...OptionFunc) (*ProjectApprovalRule, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("/projects/%s/approval_rules", pathEscape(project))
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	par := new(ProjectApprovalRule)
+	resp, err := s.client.Do(req, par)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return par, resp, err
+}
