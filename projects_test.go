@@ -388,7 +388,7 @@ func TestDeleteSharedProjectFromGroup(t *testing.T) {
 	}
 }
 
-func TestGetApprovalConfiguration(t *testing.T) {
+func TestGetApprovalsConfiguration(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
@@ -404,18 +404,17 @@ func TestGetApprovalConfiguration(t *testing.T) {
 		}`)
 	})
 
-	approvals, _, err := client.Projects.GetApprovalConfiguration(1)
+	approvals, _, err := client.Projects.GetApprovalsConfiguration(1)
 	if err != nil {
 		t.Errorf("Projects.GetApprovalConfiguration returned error: %v", err)
 	}
 
-	want := &ProjectApprovals{
-		Approvers:            []*MergeRequestApproverUser{},
-		ApproverGroups:       []*MergeRequestApproverGroup{},
-		ApprovalsBeforeMerge: 3,
-		ResetApprovalsOnPush: false,
+	want := &ProjectApprovalsConfiguration{
+		ApprovalsBeforeMerge:                      3,
+		ResetApprovalsOnPush:                      false,
 		DisableOverridingApproversPerMergeRequest: false,
 		MergeRequestsAuthorApproval:               true,
+		MergeRequestsDisableCommittersApproval:    true,
 	}
 
 	if !reflect.DeepEqual(want, approvals) {
@@ -431,12 +430,11 @@ func TestChangeApprovalConfiguration(t *testing.T) {
 		testMethod(t, r, "POST")
 		testBody(t, r, `{"approvals_before_merge":3}`)
 		fmt.Fprint(w, `{
-			"approvers": [],
-			"approver_groups": [],
 			"approvals_before_merge": 3,
 			"reset_approvals_on_push": false,
 			"disable_overriding_approvers_per_merge_request": false,
-			"merge_requests_author_approval": true
+			"merge_requests_author_approval": true,
+			"merge_requests_disable_committers_approval": true
 		}`)
 	})
 
