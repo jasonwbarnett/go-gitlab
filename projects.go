@@ -1515,7 +1515,6 @@ func (s *ProjectsService) UpdateApprovalRule(pid interface{}, arid interface{}, 
 	}
 
 	u := fmt.Sprintf("projects/%s/approval_rules/%s", pathEscape(project), pathEscape(approvalRule))
-
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
 		return nil, nil, err
@@ -1545,7 +1544,6 @@ func (s *ProjectsService) DeleteApprovalRule(pid interface{}, arid interface{}, 
 	}
 
 	u := fmt.Sprintf("projects/%s/approval_rules/%s", pathEscape(project), pathEscape(approvalRule))
-
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
 		return nil, err
