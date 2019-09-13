@@ -1441,7 +1441,7 @@ func (s *ProjectsService) ApprovalRules(pid interface{}, issue int, opt *UpdateP
 		return nil, nil, err
 	}
 
-	u := fmt.Sprintf("projects/%s/approvals", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/approval_rules", pathEscape(project))
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
 		return nil, nil, err
