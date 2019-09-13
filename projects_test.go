@@ -404,7 +404,7 @@ func TestGetApprovalsConfiguration(t *testing.T) {
 		}`)
 	})
 
-	approvals, _, err := client.Projects.GetApprovalsConfiguration(1)
+	approvals, _, err := client.Projects.GetApprovalConfiguration(1)
 	if err != nil {
 		t.Errorf("Projects.GetApprovalConfiguration returned error: %v", err)
 	}

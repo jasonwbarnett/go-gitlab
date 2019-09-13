@@ -1355,11 +1355,11 @@ type ProjectApprovalConfiguration struct {
 	MergeRequestsDisableCommittersApproval    bool `json:"merge_requests_disable_committers_approval"`
 }
 
-// GetApprovalsConfiguration returns information about a project’s approval configuration
+// GetApprovalConfiguration returns information about a project’s approval configuration
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-configuration
-func (s *ProjectsService) GetApprovalsConfiguration(pid interface{}, options ...OptionFunc) (*ProjectApprovalConfiguration, *Response, error) {
+func (s *ProjectsService) GetApprovalConfiguration(pid interface{}, options ...OptionFunc) (*ProjectApprovalConfiguration, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -1391,11 +1391,11 @@ type UpdateProjectApprovalOptions struct {
 	MergeRequestsDisableCommittersApproval    *bool `url:"merge_requests_disable_committers_approval,omitempty" json:"merge_requests_disable_committers_approval,omitempty"`
 }
 
-// UpdateApprovals returns information about a project’s approval configuration
+// UpdateApprovalConfiguration returns information about a project’s approval configuration
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-configuration
-func (s *ProjectsService) UpdateApprovals(pid interface{}, opt *UpdateProjectApprovalOptions, options ...OptionFunc) (*ProjectApprovalConfiguration, *Response, error) {
+func (s *ProjectsService) UpdateApprovalConfiguration(pid interface{}, opt *UpdateProjectApprovalOptions, options ...OptionFunc) (*ProjectApprovalConfiguration, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
