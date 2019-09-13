@@ -1461,7 +1461,8 @@ func (s *ProjectsService) ApprovalRules(pid interface{}, options ...OptionFunc) 
 // GitLab API docs: FILL IN
 type ProjectApprovalRuleOptions struct {
 	Name              *string `url:"name,omitempty" json:"name,omitempty"`
-	ApprovalsRequired *bool   `url:"approvals_required,omitempty" json:"approvals_required,omitempty"`
+	ApprovalsRequired *int    `url:"approvals_required,omitempty" json:"approvals_required,omitempty"`
+	RuleType          *string `url:"rule_type,omitempty" json:"rule_type,omitempty"`
 	UserIDs           []*int  `url:"user_ids,omitempty" json:"user_ids,omitempty"`
 	GroupIDs          []*int  `url:"group_ids,omitempty" json:"group_ids,omitempty"`
 }
