@@ -1,6 +1,3 @@
-/projects/:id/approvals
-/projects/:id/merge_requests/.../approvals
-
 GET     /projects/:id/approvals
 POST    /projects/:id/approvals
 GET     /projects/:id/approval_rules
