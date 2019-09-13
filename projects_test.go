@@ -409,7 +409,7 @@ func TestGetApprovalsConfiguration(t *testing.T) {
 		t.Errorf("Projects.GetApprovalConfiguration returned error: %v", err)
 	}
 
-	want := &ProjectApprovalsConfiguration{
+	want := &ProjectApprovalConfiguration{
 		ApprovalsBeforeMerge:                      3,
 		ResetApprovalsOnPush:                      false,
 		DisableOverridingApproversPerMergeRequest: false,

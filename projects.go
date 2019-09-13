@@ -1343,11 +1343,11 @@ func (s *ProjectsService) StartMirroringProject(pid interface{}, options ...Opti
 	return resp, err
 }
 
-// ProjectApprovalsConfiguration represents Gitlab project  request approvals.
+// ProjectApprovalConfiguration represents Gitlab project  request approvals.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#project-level-mr-approvals
-type ProjectApprovalsConfiguration struct {
+type ProjectApprovalConfiguration struct {
 	ApprovalsBeforeMerge                      int  `json:"approvals_before_merge"`
 	ResetApprovalsOnPush                      bool `json:"reset_approvals_on_push"`
 	DisableOverridingApproversPerMergeRequest bool `json:"disable_overriding_approvers_per_merge_request"`
@@ -1359,7 +1359,7 @@ type ProjectApprovalsConfiguration struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-configuration
-func (s *ProjectsService) GetApprovalsConfiguration(pid interface{}, options ...OptionFunc) (*ProjectApprovalsConfiguration, *Response, error) {
+func (s *ProjectsService) GetApprovalsConfiguration(pid interface{}, options ...OptionFunc) (*ProjectApprovalConfiguration, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -1371,7 +1371,7 @@ func (s *ProjectsService) GetApprovalsConfiguration(pid interface{}, options ...
 		return nil, nil, err
 	}
 
-	ac := new(ProjectApprovalsConfiguration)
+	ac := new(ProjectApprovalConfiguration)
 	resp, err := s.client.Do(req, ac)
 	if err != nil {
 		return nil, resp, err
@@ -1380,10 +1380,10 @@ func (s *ProjectsService) GetApprovalsConfiguration(pid interface{}, options ...
 	return ac, resp, err
 }
 
-// UpdateProjectApprovalsOptions represents the available UpdateIssue() options.
+// UpdateProjectApprovalOptions represents the available UpdateIssue() options.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/issues.html#edit-issue
-type UpdateProjectApprovalsOptions struct {
+type UpdateProjectApprovalOptions struct {
 	ApprovalsBeforeMerge                      *int  `url:"approvals_before_merge,omitempty" json:"approvals_before_merge,omitempty"`
 	ResetApprovalsOnPush                      *bool `url:"reset_approvals_on_push,omitempty" json:"reset_approvals_on_push,omitempty"`
 	DisableOverridingApproversPerMergeRequest *bool `url:"disable_overriding_approvers_per_merge_request,omitempty" json:"disable_overriding_approvers_per_merge_request,omitempty"`
@@ -1395,7 +1395,7 @@ type UpdateProjectApprovalsOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-configuration
-func (s *ProjectsService) UpdateApprovals(pid interface{}, opt *UpdateProjectApprovalsOptions, options ...OptionFunc) (*ProjectApprovalsConfiguration, *Response, error) {
+func (s *ProjectsService) UpdateApprovals(pid interface{}, opt *UpdateProjectApprovalOptions, options ...OptionFunc) (*ProjectApprovalConfiguration, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -1407,7 +1407,7 @@ func (s *ProjectsService) UpdateApprovals(pid interface{}, opt *UpdateProjectApp
 		return nil, nil, err
 	}
 
-	pac := new(ProjectApprovalsConfiguration)
+	pac := new(ProjectApprovalConfiguration)
 	resp, err := s.client.Do(req, pac)
 	if err != nil {
 		return nil, resp, err
@@ -1435,7 +1435,7 @@ type ProjectApprovalRule struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-configuration
-func (s *ProjectsService) ApprovalRules(pid interface{}, issue int, opt *UpdateProjectApprovalsOptions, options ...OptionFunc) ([]*ProjectApprovalRule, *Response, error) {
+func (s *ProjectsService) ApprovalRules(pid interface{}, issue int, opt *UpdateProjectApprovalOptions, options ...OptionFunc) ([]*ProjectApprovalRule, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
