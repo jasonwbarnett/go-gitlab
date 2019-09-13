@@ -1380,16 +1380,16 @@ type ProjectApprovalsConfiguration struct {
 	MergeRequestsDisableCommittersApproval    bool `json:"merge_requests_disable_committers_approval"`
 }
 
-// GetApprovals returns information about a project’s approval configuration
+// GetApprovalsConfiguration returns information about a project’s approval configuration
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-configuration
-func (s *ProjectsService) GetApprovals(pid interface{}, options ...OptionFunc) (*ProjectApprovalsConfiguration, *Response, error) {
+func (s *ProjectsService) GetApprovalsConfiguration(pid interface{}, options ...OptionFunc) (*ProjectApprovalsConfiguration, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("/projects/%s/approvals", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/approvals", pathEscape(project))
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -1425,8 +1425,8 @@ func (s *ProjectsService) UpdateApprovals(pid interface{}, opt *UpdateProjectApp
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("/projects/%s/approvals", pathEscape(project))
 
+	u := fmt.Sprintf("projects/%s/approvals", pathEscape(project))
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
 		return nil, nil, err
@@ -1465,8 +1465,8 @@ func (s *ProjectsService) ApprovalRules(pid interface{}, issue int, opt *UpdateP
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("/projects/%s/approvals", pathEscape(project))
 
+	u := fmt.Sprintf("projects/%s/approvals", pathEscape(project))
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
 		return nil, nil, err
@@ -1504,8 +1504,8 @@ func (s *ProjectsService) CreateApprovalRule(pid interface{}, opt *CreateProject
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("/projects/%s/approval_rules", pathEscape(project))
 
+	u := fmt.Sprintf("projects/%s/approval_rules", pathEscape(project))
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
 		return nil, nil, err
@@ -1539,7 +1539,7 @@ func (s *ProjectsService) UpdateApprovalRule(pid interface{}, arid interface{}, 
 		return nil, nil, err
 	}
 
-	u := fmt.Sprintf("/projects/%s/approval_rules/%s", pathEscape(project), pathEscape(approvalRule))
+	u := fmt.Sprintf("projects/%s/approval_rules/%s", pathEscape(project), pathEscape(approvalRule))
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -1569,7 +1569,7 @@ func (s *ProjectsService) DeleteApprovalRule(pid interface{}, arid interface{}, 
 		return nil, err
 	}
 
-	u := fmt.Sprintf("/projects/%s/approval_rules/%s", pathEscape(project), pathEscape(approvalRule))
+	u := fmt.Sprintf("projects/%s/approval_rules/%s", pathEscape(project), pathEscape(approvalRule))
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
