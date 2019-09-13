@@ -1435,25 +1435,25 @@ type ProjectApprovalRule struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-configuration
-func (s *ProjectsService) ApprovalRules(pid interface{}, issue int, opt *UpdateProjectApprovalOptions, options ...OptionFunc) ([]*ProjectApprovalRule, *Response, error) {
+func (s *ProjectsService) ApprovalRules(pid interface{}, options ...OptionFunc) ([]*ProjectApprovalRule, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 
 	u := fmt.Sprintf("projects/%s/approval_rules", pathEscape(project))
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	var par []*ProjectApprovalRule
-	resp, err := s.client.Do(req, &par)
+	var ar []*ProjectApprovalRule
+	resp, err := s.client.Do(req, &ar)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return par, resp, err
+	return ar, resp, err
 }
 
 // ProjectApprovalRuleOptions does...
