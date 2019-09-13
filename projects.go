@@ -1420,7 +1420,7 @@ type UpdateProjectApprovalsOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-configuration
-func (s *ProjectsService) UpdateApprovals(pid interface{}, issue int, opt *UpdateProjectApprovalsOptions, options ...OptionFunc) (*ProjectApprovalsConfiguration, *Response, error) {
+func (s *ProjectsService) UpdateApprovals(pid interface{}, opt *UpdateProjectApprovalsOptions, options ...OptionFunc) (*ProjectApprovalsConfiguration, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
