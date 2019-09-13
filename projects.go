@@ -1481,15 +1481,20 @@ func (s *ProjectsService) ApprovalRules(pid interface{}, issue int, opt *UpdateP
 	return par, resp, err
 }
 
-// CreateProjectApprovalRuleOptions does...
+// ProjectApprovalRuleOptions does...
 //
 // GitLab API docs: FILL IN
-type CreateProjectApprovalRuleOptions struct {
+type ProjectApprovalRuleOptions struct {
 	Name              *string `url:"name,omitempty" json:"name,omitempty"`
 	ApprovalsRequired *bool   `url:"reset_approvals_on_push,omitempty" json:"reset_approvals_on_push,omitempty"`
 	UserIDs           []*int  `url:"user_ids,omitempty" json:"user_ids,omitempty"`
 	GroupIDs          []*int  `url:"group_ids,omitempty" json:"group_ids,omitempty"`
 }
+
+// CreateProjectApprovalRuleOptions does...
+//
+// GitLab API docs: FILL IN
+type CreateProjectApprovalRuleOptions ProjectApprovalRuleOptions
 
 // CreateApprovalRule does...
 //
@@ -1513,4 +1518,63 @@ func (s *ProjectsService) CreateApprovalRule(pid interface{}, opt *CreateProject
 	}
 
 	return par, resp, err
+}
+
+// UpdateProjectApprovalRuleOptions does...
+//
+// GitLab API docs: FILL IN
+type UpdateProjectApprovalRuleOptions ProjectApprovalRuleOptions
+
+// UpdateApprovalRule does...
+//
+// GitLab API docs: FILL IN
+func (s *ProjectsService) UpdateApprovalRule(pid interface{}, arid interface{}, opt *UpdateProjectApprovalRuleOptions, options ...OptionFunc) (*ProjectApprovalRule, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	approvalRule, err := parseID(arid)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	u := fmt.Sprintf("/projects/%s/approval_rules/%s", pathEscape(project), pathEscape(approvalRule))
+
+	req, err := s.client.NewRequest("PUT", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	par := new(ProjectApprovalRule)
+	resp, err := s.client.Do(req, par)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return par, resp, err
+}
+
+// DeleteApprovalRule removes project approval rule
+//
+// GitLab API docs: TODO...
+func (s *ProjectsService) DeleteApprovalRule(pid interface{}, arid interface{}, options ...OptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+
+	approvalRule, err := parseID(arid)
+	if err != nil {
+		return nil, err
+	}
+
+	u := fmt.Sprintf("/projects/%s/approval_rules/%s", pathEscape(project), pathEscape(approvalRule))
+
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
 }
