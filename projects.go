@@ -1348,11 +1348,13 @@ func (s *ProjectsService) StartMirroringProject(pid interface{}, options ...Opti
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#project-level-mr-approvals
 type ProjectApprovalConfiguration struct {
-	ApprovalsBeforeMerge                      int  `json:"approvals_before_merge"`
-	ResetApprovalsOnPush                      bool `json:"reset_approvals_on_push"`
-	DisableOverridingApproversPerMergeRequest bool `json:"disable_overriding_approvers_per_merge_request"`
-	MergeRequestsAuthorApproval               bool `json:"merge_requests_author_approval"`
-	MergeRequestsDisableCommittersApproval    bool `json:"merge_requests_disable_committers_approval"`
+	Approvers                                 []*UserBasicEntity `json:"approvers"`
+	ApproverGroups                            []*GroupEntity     `json:"approver_groups"`
+	ApprovalsBeforeMerge                      int                `json:"approvals_before_merge"`
+	ResetApprovalsOnPush                      bool               `json:"reset_approvals_on_push"`
+	DisableOverridingApproversPerMergeRequest bool               `json:"disable_overriding_approvers_per_merge_request"`
+	MergeRequestsAuthorApproval               bool               `json:"merge_requests_author_approval"`
+	MergeRequestsDisableCommittersApproval    bool               `json:"merge_requests_disable_committers_approval"`
 }
 
 // GetApprovalConfiguration returns information about a project’s approval configuration
